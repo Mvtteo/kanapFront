@@ -72,8 +72,8 @@ const addToBasket = () => {
         });
         colorQuantity.price = null;
 
-        if(listenQty.value <1 || listenQty.value > 99){
-            alert("Veuillez choisir une quantité comprise entre 1 et 99");
+        if(listenQty.value < 1 || listenQty.value > 100){
+            alert("Veuillez choisir une quantité comprise entre 1 et 100");
         }
         else if (listenColor.value ==""){
             alert("Veuillez choisir une couleur");
