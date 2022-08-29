@@ -6,7 +6,6 @@ let addToCart = JSON.parse(localStorage.getItem("product"));
 
 
 //mise en place de la page du panier avec les différents canapés les couleurs et quantités
-
 const cartDisplay = async () => {
     if(addToCart){
         await addToCart;
@@ -52,49 +51,33 @@ const cartDisplay = async () => {
 cartDisplay(); 
 
 //information pour l'utilisateur que le panier est vide 
-
 const emptyCart = async () => {
 if (addToCart){
   await addToCart;
 }
   if (addToCart == null || addToCart.length == 0){
-  document.querySelector("h1").innerHTML = "Votre panier est vide";
-  document.getElementById("totalQuantity").innerHTML = "0";
-  document.getElementById("totalPrice").innerHTML = "0";
-  console.log(addToCart);
-  console.log("test");
+    document.querySelector("h1").innerHTML = "Votre panier est vide";
+    document.getElementById("totalQuantity").innerHTML = "0";
+    document.getElementById("totalPrice").innerHTML = "0";
   }
-
-  else {
-  console.log(addToCart);
-  console.log(addToCart.length);
-  }
-
 }
 
 emptyCart();
 
 //modification de la quantité de produits dans le panier
-
-
 const quantityChanger = async (cartDisplay) => {
   await cartDisplay;
 
   let newValue = document.querySelectorAll(".itemQuantity");
 
   totalProduct = JSON.parse(localStorage.getItem("product"));
-  console.log(totalProduct);
 
 
   newValue.forEach((ajout) => {
     ajout.addEventListener("change", () => {
 
       for (i = 0; i < totalProduct.length; i++ ){
-        if(
-          totalProduct[i]._id == ajout.dataset.id &&
-          totalProduct[i].color == ajout.dataset.color
-        )
-     {
+        if(totalProduct[i]._id == ajout.dataset.id && totalProduct[i].color == ajout.dataset.color){
           return(
             totalProduct[i].quantity = ajout.value,
             addToCart[i].quantity = ajout.value,
@@ -108,11 +91,10 @@ const quantityChanger = async (cartDisplay) => {
 };
 
 //récupération du prix via l'api
-
 async function getPrice(){
 
   for (let product of addToCart) {
-  const response = await fetch(`http://localhost:3000/api/products/${product._id}`)
+  await fetch(`http://localhost:3000/api/products/${product._id}`)
     .then(function(res) {
     if (res.ok) {
       return res.json();
@@ -124,12 +106,7 @@ async function getPrice(){
   }
 } 
 
-
-
 //actualisation des articles supprimés
-
-
-
 const removeProduct = async (cartDisplay) => {
   await cartDisplay;
 
@@ -160,11 +137,9 @@ const removeProduct = async (cartDisplay) => {
         }
       });
       addToCart = addToCart.filter((product) => {
-        if (
-        trash.dataset.id != product._id ||
-        trash.dataset.color != product.color
-        )
-        {return true;}
+        if (trash.dataset.id != product._id ||trash.dataset.color != product.color){
+          return true;
+        }
       })
       trash.closest("article").remove();
       localStorage.setItem("product", JSON.stringify(totalProduct));
@@ -181,7 +156,6 @@ return;
 
 
 //création des regex pour valider le formulaire
-
 const firstName = document.getElementById("firstName");
 const lastName = document.getElementById("lastName");
 const address = document.getElementById("address");
@@ -204,10 +178,7 @@ firstName.addEventListener("focusout", function (e) {
     firstNameErrorMsg.innerHTML = "";
     valueFirstName = e.target.value;
   }
-  if (!e.target.value.match(/^[a-z A-Z]{3,25}$/) && 
-  e.target.value.length > 3 && 
-  e.target.value.length < 25)
-  {
+  if (!e.target.value.match(/^[a-z A-Z]{3,25}$/) && e.target.value.length > 3 && e.target.value.length < 25){
     firstNameErrorMsg.innerHTML = "Le prénom ne doit pas contenir de caractères spéciaux";
     valueFirstName = null;
   }
@@ -215,7 +186,6 @@ firstName.addEventListener("focusout", function (e) {
 });
 
 //regex Nom de famille
-
 lastName.addEventListener("focusout", function (e) {
   valueLastName;
   if (e.target.value.length == 0){
@@ -229,10 +199,7 @@ lastName.addEventListener("focusout", function (e) {
     lastNameErrorMsg.innerHTML = "";
     valueLastName = e.target.value;
   }
-  if (!e.target.value.match(/^[a-z A-Z]{3,25}$/) && 
-  e.target.value.length > 3 && 
-  e.target.value.length < 25)
-  {
+  if (!e.target.value.match(/^[a-z A-Z]{3,25}$/) && e.target.value.length > 3 && e.target.value.length < 25){
     lastNameErrorMsg.innerHTML = "Le nom ne doit pas contenir de caractères spéciaux";
     valueLastName = null;
   }
@@ -254,10 +221,7 @@ address.addEventListener("input", function (e) {
     addressErrorMsg.innerHTML = "";
     valueAddress = e.target.value;
   }
-  if (!e.target.value.match(/^[#.0-9a-zA-Z\s,-]{5,50}$/) && 
-  e.target.value.length > 5 && 
-  e.target.value.length < 50)
-  {
+  if (!e.target.value.match(/^[#.0-9a-zA-Z\s,-]{5,50}$/) && e.target.value.length > 5 && e.target.value.length < 50){
     addressErrorMsg.innerHTML = "La saisie de votre adresse a été effectuée avec des caractères non autorisés";
     valueAddress = null;
   }
@@ -265,7 +229,6 @@ address.addEventListener("input", function (e) {
 });
 
 //regex Ville
-
 city.addEventListener("input", function (e) {
   valueCity;
   if (e.target.value.length == 0){
@@ -279,10 +242,7 @@ city.addEventListener("input", function (e) {
     cityErrorMsg.innerHTML = "";
     valueCity = e.target.value;
   }
-  if (!e.target.value.match(/^[a-zA-Z\u0080-\u024F\s\/\-\)\(\`\.\"\']{2,30}$/) && 
-  e.target.value.length > 2 && 
-  e.target.value.length < 30)
-  {
+  if (!e.target.value.match(/^[a-zA-Z\u0080-\u024F\s\/\-\)\(\`\.\"\']{2,30}$/) && e.target.value.length > 2 && e.target.value.length < 30){
     cityErrorMsg.innerHTML = "La saisie de votre ville a été effectuée avec des caractères non autorisés";
     valueCity = null;
   }
@@ -290,7 +250,6 @@ city.addEventListener("input", function (e) {
 });
 
 //regex Email
-
 email.addEventListener("focusout", function (e) {
   valueEmail;
   if (e.target.value.length == 0){
@@ -300,11 +259,7 @@ email.addEventListener("focusout", function (e) {
     emailErrorMsg.innerHTML = "";
     valueEmail = e.target.value;
   }
-  if (
-    !e.target.value.match(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/) &&
-    !e.target.value.length == 0
-  
-  ){
+  if (!e.target.value.match(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/) &&!e.target.value.length == 0){
     emailErrorMsg.innerHTML = "Votre adresse email est incorrecte";
     valueEmail = null;
   }
@@ -313,7 +268,6 @@ email.addEventListener("focusout", function (e) {
 const formOrder = document.querySelector(".cart__order__form");
 
 //mise en place de l'envoi des informations du clients vers l'api et changement de page vers la page confirmation
-
 formOrder.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -336,18 +290,13 @@ formOrder.addEventListener("submit", (e) => {
       },
       products: productsId,
     };
-
     createCart(data);
-
   } else {
-
     alert("Veuillez remplir le formulaire correctement");
-  
   }
 });
 
-
-
+//fonction permettant d'envoyer les données vers l'api
 async function createCart(data){
   let sendToServer = await fetch("http://localhost:3000/api/products/order",{
     method: "POST",
@@ -360,7 +309,7 @@ async function createCart(data){
   if (sendToServer.ok) {
     let json = await sendToServer.json();
     window.localStorage.setItem("orderId", json.orderId);
-    window.location = `confirmation.html?${json.orderId}`;
+    window.location.href = `confirmation.html?OrderId=${json.orderId}`;
   } else {
     alert("Une erreur s'est produite" + sendToServer.status);
   };
@@ -369,8 +318,6 @@ async function createCart(data){
 
 
 //calul du total des produits, quantités et prix
-
-
 const productTotal = async (cartDisplay) => {
   await cartDisplay;
 
@@ -380,7 +327,7 @@ const productTotal = async (cartDisplay) => {
   let newTab = addToCart;
 
   newTab.forEach((product) => {
-  productPrice.push(product.price.toString() * product.quantity);
+    productPrice.push(product.price.toString() * product.quantity);
     totalQuantityProduct.push(product.quantity);
   });
 
